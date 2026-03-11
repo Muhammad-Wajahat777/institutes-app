@@ -1,0 +1,674 @@
+{
+  "stats": [
+    {
+      "id": "dashboard-stats",
+      "totalStudents": 248,
+      "totalTeachers": 32,
+      "totalCourses": 18,
+      "totalFeesCollected": 2456000,
+      "pendingFees": 156000,
+      "activeStudents": 215,
+      "inactiveStudents": 33
+    }
+  ],
+  "students": [
+    {
+      "id": "1",
+      "firstName": "Rahul",
+      "lastName": "Sharma",
+      "rollNo": "STU001",
+      "email": "rahul.sharma@email.com",
+      "phone": "9876543210",
+      "courseId": "1",
+      "admissionDate": "2025-06-15",
+      "status": "Active",
+      "address": "123, Gandhi Nagar, Mumbai - 400001",
+      "gender": "Male",
+      "dateOfBirth": "2005-03-12",
+      "fatherName": "Raj Kumar Sharma",
+      "motherName": "Sunita Sharma",
+      "emergencyContact": "9876543211"
+    },
+    {
+      "id": "2",
+      "firstName": "Priya",
+      "lastName": "Patel",
+      "rollNo": "STU002",
+      "email": "priya.patel@email.com",
+      "phone": "9876543212",
+      "courseId": "2",
+      "admissionDate": "2025-07-01",
+      "status": "Active",
+      "address": "45, Nehru Road, Ahmedabad - 380001",
+      "gender": "Female",
+      "dateOfBirth": "2004-08-22",
+      "fatherName": "Bipin Patel",
+      "motherName": "Meera Patel",
+      "emergencyContact": "9876543213"
+    },
+    {
+      "id": "3",
+      "firstName": "Amit",
+      "lastName": "Kumar",
+      "rollNo": "STU003",
+      "email": "amit.kumar@email.com",
+      "phone": "9876543214",
+      "courseId": "1",
+      "admissionDate": "2025-06-20",
+      "status": "Active",
+      "address": "78, Laxmi Street, Delhi - 110001",
+      "gender": "Male",
+      "dateOfBirth": "2005-11-05",
+      "fatherName": "Suresh Kumar",
+      "motherName": "Kamlesh Kumar",
+      "emergencyContact": "9876543215"
+    },
+    {
+      "id": "4",
+      "firstName": "Sneha",
+      "lastName": "Reddy",
+      "rollNo": "STU004",
+      "email": "sneha.reddy@email.com",
+      "phone": "9876543215",
+      "courseId": "3",
+      "admissionDate": "2025-08-10",
+      "status": "Active",
+      "address": "12, IT Park, Hyderabad - 500001",
+      "gender": "Female",
+      "dateOfBirth": "2004-05-18",
+      "fatherName": "Venkat Reddy",
+      "motherName": "Lakshmi Reddy",
+      "emergencyContact": "9876543216"
+    },
+    {
+      "id": "5",
+      "firstName": "Vikram",
+      "lastName": "Singh",
+      "rollNo": "STU005",
+      "email": "vikram.singh@email.com",
+      "phone": "9876543216",
+      "courseId": "2",
+      "admissionDate": "2025-07-15",
+      "status": "Inactive",
+      "address": "34, Royal Avenue, Jaipur - 302001",
+      "gender": "Male",
+      "dateOfBirth": "2003-12-30",
+      "fatherName": "Ramesh Singh",
+      "motherName": "Geeta Singh",
+      "emergencyContact": "9876543217"
+    },
+    {
+      "id": "6",
+      "firstName": "Anjali",
+      "lastName": "Gupta",
+      "rollNo": "STU006",
+      "email": "anjali.gupta@email.com",
+      "phone": "9876543217",
+      "courseId": "4",
+      "admissionDate": "2025-09-01",
+      "status": "Active",
+      "address": "56, Market Road, Lucknow - 226001",
+      "gender": "Female",
+      "dateOfBirth": "2005-02-14",
+      "fatherName": "Anil Gupta",
+      "motherName": "Sunita Gupta",
+      "emergencyContact": "9876543218"
+    },
+    {
+      "id": "7",
+      "firstName": "Rohit",
+      "lastName": "Mehta",
+      "rollNo": "STU007",
+      "email": "rohit.mehta@email.com",
+      "phone": "9876543218",
+      "courseId": "1",
+      "admissionDate": "2025-06-25",
+      "status": "Active",
+      "address": "89, Center Point, Chennai - 600001",
+      "gender": "Male",
+      "dateOfBirth": "2004-07-08",
+      "fatherName": "Hiren Mehta",
+      "motherName": "Dimple Mehta",
+      "emergencyContact": "9876543219"
+    },
+    {
+      "id": "8",
+      "firstName": "Kavya",
+      "lastName": "Nair",
+      "rollNo": "STU008",
+      "email": "kavya.nair@email.com",
+      "phone": "9876543219",
+      "courseId": "3",
+      "admissionDate": "2025-08-05",
+      "status": "Active",
+      "address": "23, Lake Road, Kochi - 682001",
+      "gender": "Female",
+      "dateOfBirth": "2005-09-20",
+      "fatherName": "Rajesh Nair",
+      "motherName": "Smitha Nair",
+      "emergencyContact": "9876543220"
+    },
+    {
+      "id": "9",
+      "firstName": "Arjun",
+      "lastName": "Verma",
+      "rollNo": "STU009",
+      "email": "arjun.verma@email.com",
+      "phone": "9876543220",
+      "courseId": "2",
+      "admissionDate": "2025-07-20",
+      "status": "Active",
+      "address": "67, Green Park, Bangalore - 560001",
+      "gender": "Male",
+      "dateOfBirth": "2004-04-12",
+      "fatherName": "Ajay Verma",
+      "motherName": "Poonam Verma",
+      "emergencyContact": "9876543221"
+    },
+    {
+      "id": "10",
+      "firstName": "Pooja",
+      "lastName": "Shah",
+      "rollNo": "STU010",
+      "email": "pooja.shah@email.com",
+      "phone": "9876543221",
+      "courseId": "4",
+      "admissionDate": "2025-09-10",
+      "status": "Active",
+      "address": "45, City Center, Pune - 411001",
+      "gender": "Female",
+      "dateOfBirth": "2005-01-25",
+      "fatherName": "Nitin Shah",
+      "motherName": "Rashmi Shah",
+      "emergencyContact": "9876543222"
+    },
+    {
+      "id": "194e",
+      "firstName": "Muhammad",
+      "lastName": "Wajahat",
+      "rollNo": "qwerf",
+      "email": "muhammadwajahat7777@gmail.com",
+      "phone": "+92-21-34567890",
+      "courseId": "3",
+      "status": "Active",
+      "admissionDate": "2026-03-12",
+      "dateOfBirth": "1993-05-12",
+      "gender": "Male",
+      "address": "swsaddxasxasxasxa"
+    }
+  ],
+  "teachers": [
+    {
+      "id": "1",
+      "firstName": "Dr. Rajesh",
+      "lastName": "Khanna",
+      "email": "rajesh.khanna@institute.com",
+      "phone": "9988776655",
+      "subjectSpecialization": "Computer Science",
+      "qualification": "Ph.D. in Computer Science",
+      "salary": 85000,
+      "hireDate": "2020-01-15",
+      "status": "Active",
+      "address": "123, Faculty Block A, Campus Road",
+      "experience": "8 years"
+    },
+    {
+      "id": "2",
+      "firstName": "Prof. Sunita",
+      "lastName": "Williams",
+      "email": "sunita.williams@institute.com",
+      "phone": "9988776656",
+      "subjectSpecialization": "Mathematics",
+      "qualification": "M.Sc. Mathematics, M.Phil",
+      "salary": 72000,
+      "hireDate": "2019-06-20",
+      "status": "Active",
+      "address": "45, Faculty Block B, Campus Road",
+      "experience": "10 years"
+    },
+    {
+      "id": "3",
+      "firstName": "Mr. Amit",
+      "lastName": "Bhatia",
+      "email": "amit.bhatia@institute.com",
+      "phone": "9988776657",
+      "subjectSpecialization": "Physics",
+      "qualification": "M.Sc. Physics, B.Ed",
+      "salary": 68000,
+      "hireDate": "2021-03-10",
+      "status": "Active",
+      "address": "67, Faculty Block A, Campus Road",
+      "experience": "6 years"
+    },
+    {
+      "id": "4",
+      "firstName": "Mrs. Kavita",
+      "lastName": "Desai",
+      "email": "kavita.desai@institute.com",
+      "phone": "9988776658",
+      "subjectSpecialization": "Chemistry",
+      "qualification": "M.Sc. Chemistry, GATE Qualified",
+      "salary": 65000,
+      "hireDate": "2021-07-01",
+      "status": "Active",
+      "address": "89, Faculty Block C, Campus Road",
+      "experience": "5 years"
+    },
+    {
+      "id": "5",
+      "firstName": "Dr. Manish",
+      "lastName": "Joshi",
+      "email": "manish.joshi@institute.com",
+      "phone": "9988776659",
+      "subjectSpecialization": "English",
+      "qualification": "Ph.D. in English Literature",
+      "salary": 78000,
+      "hireDate": "2018-09-15",
+      "status": "Active",
+      "address": "34, Faculty Block B, Campus Road",
+      "experience": "12 years"
+    },
+    {
+      "id": "6",
+      "firstName": "Ms. Richa",
+      "lastName": "Agarwal",
+      "email": "richa.agarwal@institute.com",
+      "phone": "9988776660",
+      "subjectSpecialization": "Computer Science",
+      "qualification": "M.Tech Computer Science",
+      "salary": 72000,
+      "hireDate": "2022-01-10",
+      "status": "Active",
+      "address": "56, Faculty Block A, Campus Road",
+      "experience": "4 years"
+    },
+    {
+      "id": "7",
+      "firstName": "Mr. Suresh",
+      "lastName": "Pillai",
+      "email": "suresh.pillai@institute.com",
+      "phone": "9988776661",
+      "subjectSpecialization": "Biology",
+      "qual.Sc. Zoologyification": "M, B.Ed",
+      "salary": 62000,
+      "hireDate": "2022-06-15",
+      "status": "Active",
+      "address": "78, Faculty Block C, Campus Road",
+      "experience": "3 years"
+    },
+    {
+      "id": "8",
+      "firstName": "Prof. Anupama",
+      "lastName": "Kulkarni",
+      "email": "anupama.kulkarni@institute.com",
+      "phone": "9988776662",
+      "subjectSpecialization": "History",
+      "qualification": "M.A. History, NET Qualified",
+      "salary": 58000,
+      "hireDate": "2023-02-01",
+      "status": "Active",
+      "address": "12, Faculty Block D, Campus Road",
+      "experience": "2 years"
+    }
+  ],
+  "courses": [
+    {
+      "id": "1",
+      "name": "Computer Science Engineering",
+      "code": "CSE",
+      "duration": 48,
+      "totalFees": 250000,
+      "description": "4-year undergraduate program in Computer Science with focus on programming, algorithms, and software development",
+      "status": "Active",
+      "seats": 60,
+      "teacherId": "1"
+    },
+    {
+      "id": "2",
+      "name": "Electronics & Communication",
+      "code": "ECE",
+      "duration": 48,
+      "totalFees": 240000,
+      "description": "4-year program covering electronic circuits, communication systems, and embedded technologies",
+      "status": "Active",
+      "seats": 45,
+      "teacherId": "3"
+    },
+    {
+      "id": "3",
+      "name": "Information Technology",
+      "code": "IT",
+      "duration": 48,
+      "totalFees": 220000,
+      "description": "4-year program focused on software development, web technologies, and database management",
+      "status": "Active",
+      "seats": 50,
+      "teacherId": "6"
+    },
+    {
+      "id": "4",
+      "name": "Mechanical Engineering",
+      "code": "ME",
+      "duration": 48,
+      "totalFees": 230000,
+      "description": "4-year program covering mechanical design, thermodynamics, and manufacturing processes",
+      "status": "Active",
+      "seats": 40,
+      "teacherId": null
+    },
+    {
+      "id": "5",
+      "name": "Data Science",
+      "code": "DS",
+      "duration": 24,
+      "totalFees": 180000,
+      "description": "2-year postgraduate program in data science, machine learning, and artificial intelligence",
+      "status": "Active",
+      "seats": 30,
+      "teacherId": "1"
+    },
+    {
+      "id": "6",
+      "name": "Master of Business Administration",
+      "code": "MBA",
+      "duration": 24,
+      "totalFees": 200000,
+      "description": "2-year management program with specializations in Finance, Marketing, and HR",
+      "status": "Active",
+      "seats": 35,
+      "teacherId": null
+    }
+  ],
+  "fees": [
+    {
+      "id": "1",
+      "studentId": "1",
+      "amountPaid": 62500,
+      "amountDue": 0,
+      "paymentDate": "2025-06-20",
+      "paymentType": "Online",
+      "receiptNo": "REC001",
+      "status": "Paid",
+      "academicYear": "2025-26",
+      "installment": "1st Year - 1st Semester"
+    },
+    {
+      "id": "2",
+      "studentId": "2",
+      "amountPaid": 60000,
+      "amountDue": 0,
+      "paymentDate": "2025-07-05",
+      "paymentType": "Cash",
+      "receiptNo": "REC002",
+      "status": "Paid",
+      "academicYear": "2025-26",
+      "installment": "1st Year - 1st Semester"
+    },
+    {
+      "id": "3",
+      "studentId": "3",
+      "amountPaid": 50000,
+      "amountDue": 12500,
+      "paymentDate": "2025-06-25",
+      "paymentType": "Online",
+      "receiptNo": "REC003",
+      "status": "Partial",
+      "academicYear": "2025-26",
+      "installment": "1st Year - 1st Semester"
+    },
+    {
+      "id": "4",
+      "studentId": "4",
+      "amountPaid": 45000,
+      "amountDue": 45000,
+      "paymentDate": null,
+      "paymentType": null,
+      "receiptNo": null,
+      "status": "Pending",
+      "academicYear": "2025-26",
+      "installment": "1st Year - 1st Semester"
+    },
+    {
+      "id": "5",
+      "studentId": "5",
+      "amountPaid": 60000,
+      "amountDue": 0,
+      "paymentDate": "2025-07-20",
+      "paymentType": "Online",
+      "receiptNo": "REC004",
+      "status": "Paid",
+      "academicYear": "2025-26",
+      "installment": "1st Year - 1st Semester"
+    },
+    {
+      "id": "6",
+      "studentId": "6",
+      "amountPaid": 0,
+      "amountDue": 55000,
+      "paymentDate": null,
+      "paymentType": null,
+      "receiptNo": null,
+      "status": "Pending",
+      "academicYear": "2025-26",
+      "installment": "1st Year - 1st Semester"
+    },
+    {
+      "id": "7",
+      "studentId": "7",
+      "amountPaid": 62500,
+      "amountDue": 0,
+      "paymentDate": "2025-06-30",
+      "paymentType": "Cash",
+      "receiptNo": "REC005",
+      "status": "Paid",
+      "academicYear": "2025-26",
+      "installment": "1st Year - 1st Semester"
+    },
+    {
+      "id": "8",
+      "studentId": "8",
+      "amountPaid": 55000,
+      "amountDue": 0,
+      "paymentDate": "2025-08-10",
+      "paymentType": "Online",
+      "receiptNo": "REC006",
+      "status": "Paid",
+      "academicYear": "2025-26",
+      "installment": "1st Year - 1st Semester"
+    },
+    {
+      "id": "9",
+      "studentId": "9",
+      "amountPaid": 30000,
+      "amountDue": 30000,
+      "paymentDate": "2025-07-25",
+      "paymentType": "Online",
+      "receiptNo": "REC007",
+      "status": "Partial",
+      "academicYear": "2025-26",
+      "installment": "1st Year - 1st Semester"
+    },
+    {
+      "id": "10",
+      "studentId": "10",
+      "amountPaid": 55000,
+      "amountDue": 0,
+      "paymentDate": "2025-09-15",
+      "paymentType": "Cash",
+      "receiptNo": "REC008",
+      "status": "Paid",
+      "academicYear": "2025-26",
+      "installment": "1st Year - 1st Semester"
+    }
+  ],
+  "notifications": [
+    {
+      "id": "1",
+      "title": "Fee Submission Deadline",
+      "message": "Last date for 2nd semester fee submission is March 31, 2026",
+      "date": "2026-03-01",
+      "read": false,
+      "type": "Important"
+    },
+    {
+      "id": "2",
+      "title": "Exam Schedule Released",
+      "message": "Mid-term examination schedule has been published. Check your dashboard for details.",
+      "date": "2026-02-28",
+      "read": true,
+      "type": "Academic"
+    },
+    {
+      "id": "3",
+      "title": "New Course Available",
+      "message": "Artificial Intelligence certification course now open for enrollment",
+      "date": "2026-02-25",
+      "read": false,
+      "type": "General"
+    },
+    {
+      "id": "4",
+      "title": "Holiday Notice",
+      "message": "Institute will remain closed on March 15 for Holi celebration",
+      "date": "2026-03-10",
+      "read": false,
+      "type": "General"
+    },
+    {
+      "id": "5",
+      "title": "Parent-Teacher Meeting",
+      "message": "Parent-Teacher meeting scheduled for March 20, 2026 at 10:00 AM",
+      "date": "2026-03-08",
+      "read": true,
+      "type": "Important"
+    }
+  ],
+  "settings": [
+    {
+      "id": "general-config",
+      "instituteName": "Excel Institute of Technology",
+      "instituteCode": "EXC-2024",
+      "address": "123 Education Nagar, Knowledge City",
+      "phone": "0120-4567890",
+      "email": "admin@excelinstitute.com",
+      "website": "www.excelinstitute.com",
+      "academicYear": "2025-26",
+      "currency": "INR",
+      "dateFormat": "DD-MM-YYYY",
+      "timezone": "Asia/Kolkata",
+      "logo": null,
+      "establishedYear": "2010",
+      "affiliation": "University of Technology"
+    }
+  ],
+  "academicYears": [
+    {
+      "id": "1",
+      "year": "2025-26",
+      "startDate": "2025-06-01",
+      "endDate": "2026-05-31",
+      "status": "Active",
+      "isCurrent": true
+    },
+    {
+      "id": "2",
+      "year": "2024-25",
+      "startDate": "2024-06-01",
+      "endDate": "2025-05-31",
+      "status": "Completed",
+      "isCurrent": false
+    },
+    {
+      "id": "3",
+      "year": "2026-27",
+      "startDate": "2026-06-01",
+      "endDate": "2027-05-31",
+      "status": "Upcoming",
+      "isCurrent": false
+    }
+  ],
+  "feeConfigurations": [
+    {
+      "id": "1",
+      "courseId": "1",
+      "academicYear": "2025-26",
+      "tuitionFee": 200000,
+      "hostelFee": 0,
+      "transportFee": 0,
+      "examFee": 5000,
+      "libraryFee": 2000,
+      "miscellaneousFee": 3000,
+      "totalFee": 210000
+    },
+    {
+      "id": "2",
+      "courseId": "2",
+      "academicYear": "2025-26",
+      "tuitionFee": 190000,
+      "hostelFee": 0,
+      "transportFee": 0,
+      "examFee": 5000,
+      "libraryFee": 2000,
+      "miscellaneousFee": 3000,
+      "totalFee": 200000
+    },
+    {
+      "id": "3",
+      "courseId": "3",
+      "academicYear": "2025-26",
+      "tuitionFee": 180000,
+      "hostelFee": 0,
+      "transportFee": 0,
+      "examFee": 5000,
+      "libraryFee": 2000,
+      "miscellaneousFee": 3000,
+      "totalFee": 190000
+    }
+  ],
+  "roles": [
+    {
+      "id": "1",
+      "name": "Admin",
+      "description": "Full system access",
+      "permissions": [
+        "manage_students",
+        "manage_teachers",
+        "manage_courses",
+        "manage_fees",
+        "manage_settings",
+        "view_reports"
+      ]
+    },
+    {
+      "id": "2",
+      "name": "Accountant",
+      "description": "Fee management and financial reports",
+      "permissions": [
+        "manage_fees",
+        "view_students",
+        "view_reports"
+      ]
+    },
+    {
+      "id": "3",
+      "name": "Teacher",
+      "description": "Teacher access",
+      "permissions": [
+        "view_courses",
+        "view_students",
+        "manage_attendance"
+      ]
+    },
+    {
+      "id": "4",
+      "name": "Student",
+      "description": "Student portal access",
+      "permissions": [
+        "view_profile",
+        "view_fees",
+        "view_courses"
+      ]
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}
