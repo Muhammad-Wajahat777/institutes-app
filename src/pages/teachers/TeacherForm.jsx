@@ -1,11 +1,19 @@
+import { useMemo } from 'react';
 import { Modal, Form, Input, Select, message } from 'antd';
-import { useCreateTeacher, useUpdateTeacher } from '../../hooks/useTeachers';
+import { useCreateTeacher, useUpdateTeacher, useTeachers } from '../../hooks/useTeachers';
 
 export default function TeacherForm({ open, onCancel, onSubmit, editingTeacher }) {
   const [form] = Form.useForm();
   
   const createMutation = useCreateTeacher();
   const updateMutation = useUpdateTeacher();
+
+  // Fetch existing teachers to extract unique subjects
+  const { data: teachers = [] } = useTeachers();
+  const subjectOptions = useMemo(() => {
+    const unique = [...new Set(teachers.map(t => t.subjectSpecialization).filter(Boolean))];
+    return unique.sort().map(subject => ({ label: subject, value: subject }));
+  }, [teachers]);
 
   const isEditing = !!editingTeacher;
 
@@ -130,17 +138,11 @@ export default function TeacherForm({ open, onCancel, onSubmit, editingTeacher }
             label="Subject"
             rules={[{ required: true, message: 'Please select a subject' }]}
           >
-            <Select placeholder="Select a subject">
-              <Select.Option value="Computer Science">
-                Computer Science
-              </Select.Option>
-              <Select.Option value="Mathematics">Mathematics</Select.Option>
-              <Select.Option value="Physics">Physics</Select.Option>
-              <Select.Option value="Chemistry">Chemistry</Select.Option>
-              <Select.Option value="English">English</Select.Option>
-              <Select.Option value="Biology">Biology</Select.Option>
-              <Select.Option value="History">History</Select.Option>
-            </Select>
+            <Input
+              showSearch={false}
+              placeholder="Select a subject"
+              options={subjectOptions}
+            />
           </Form.Item>
         </div>
 

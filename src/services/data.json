@@ -309,6 +309,19 @@
       "status": "Active",
       "address": "12, Faculty Block D, Campus Road",
       "experience": "2 years"
+    },
+    {
+      "id": "2f54",
+      "firstName": "Muhammad",
+      "lastName": "Wajahat",
+      "email": "muhammadwajahat715@gmail.com",
+      "phone": "03287410715",
+      "subject": "web development",
+      "qualification": "web development",
+      "salary": "1",
+      "status": "Active",
+      "experience": "100000",
+      "subjectSpecialization": "web development"
     }
   ],
   "courses": [
@@ -377,6 +390,16 @@
       "status": "Active",
       "seats": 35,
       "teacherId": null
+    },
+    {
+      "id": "4d0a",
+      "name": "web development",
+      "code": "web-dev",
+      "duration": 6,
+      "totalFees": 8000,
+      "teacherId": "5",
+      "status": "Active",
+      "seats": 20
     }
   ],
   "fees": [
