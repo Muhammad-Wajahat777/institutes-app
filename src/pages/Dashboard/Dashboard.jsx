@@ -46,7 +46,7 @@ export default function Dashboard() {
       icon: <DollarOutlined style={{ fontSize: 28, color: '#fa8c16' }} />,
       bg: '#fff7e6',
       growth: 15,
-      prefix: '₹',
+      prefix: 'Rs.',
     },
   ];
 

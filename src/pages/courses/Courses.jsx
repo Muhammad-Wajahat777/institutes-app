@@ -57,7 +57,6 @@ export default function Courses() {
       instructor: teacher
         ? `${teacher.firstName} ${teacher.lastName}`
         : 'Not Assigned',
-      duration: `${course.duration} months`,
     };
   });
 

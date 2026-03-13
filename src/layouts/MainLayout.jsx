@@ -11,6 +11,7 @@ import {
   SettingOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
+  CalendarOutlined,
 } from "@ant-design/icons";
 
 const { Header, Sider, Content } = Layout;
@@ -36,6 +37,11 @@ const menuItems = [
     key: "/courses",
     icon: <BookOutlined />,
     label: "Courses",
+  },
+  {
+    key: "/attendance",
+    icon: <CalendarOutlined />,
+    label: "Attendance",
   },
   {
     key: "/fees",

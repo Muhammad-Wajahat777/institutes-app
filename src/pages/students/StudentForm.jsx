@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Modal, Form, Input, Select, DatePicker, message } from 'antd';
 import { useCreateStudent, useUpdateStudent } from '../../hooks/useStudents';
 import dayjs from 'dayjs';
@@ -10,18 +11,22 @@ export default function StudentForm({ open, onCancel, onSubmit, editingStudent, 
 
   const isEditing = !!editingStudent;
 
-  // Reset form when modal opens/closes or editing student changes
-  const handleOpenChange = (isOpen) => {
-    if (isOpen && editingStudent) {
+  useEffect(() => {
+    if (!open) {
+      form.resetFields();
+      return;
+    }
+
+    if (editingStudent) {
       form.setFieldsValue({
         ...editingStudent,
         admissionDate: editingStudent.admissionDate ? dayjs(editingStudent.admissionDate) : null,
         dateOfBirth: editingStudent.dateOfBirth ? dayjs(editingStudent.dateOfBirth) : null,
       });
-    } else if (!isOpen) {
+    } else {
       form.resetFields();
     }
-  };
+  }, [open, editingStudent, form]);
 
   const handleOk = () => {
     form.submit();
@@ -43,8 +48,8 @@ export default function StudentForm({ open, onCancel, onSubmit, editingStudent, 
             form.resetFields();
             onSubmit();
           },
-          onError: () => {
-            message.error('Failed to update student');
+          onError: (error) => {
+            message.error(error?.message || 'Failed to update student');
           },
         }
       );
@@ -55,8 +60,8 @@ export default function StudentForm({ open, onCancel, onSubmit, editingStudent, 
           form.resetFields();
           onSubmit();
         },
-        onError: () => {
-          message.error('Failed to add student');
+        onError: (error) => {
+          message.error(error?.message || 'Failed to add student');
         },
       });
     }
@@ -84,7 +89,6 @@ export default function StudentForm({ open, onCancel, onSubmit, editingStudent, 
         form={form}
         layout="vertical"
         onFinish={handleFinish}
-        onOpenChange={handleOpenChange}
         style={{ marginTop: 16 }}
       >
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>

@@ -5,10 +5,7 @@ import settingsApi from '../api/settingsApi';
 export const useSettings = () => {
   return useQuery({
     queryKey: ['settings'],
-    queryFn: async () => {
-      const response = await settingsApi.getAll();
-      return response.data;
-    },
+    queryFn: () => settingsApi.getAll(),
   });
 };
 
@@ -28,10 +25,7 @@ export const useUpdateSettings = () => {
 export const useAcademicYears = () => {
   return useQuery({
     queryKey: ['academicYears'],
-    queryFn: async () => {
-      const response = await settingsApi.getAcademicYears();
-      return response.data;
-    },
+    queryFn: () => settingsApi.getAcademicYears(),
   });
 };
 
@@ -63,10 +57,7 @@ export const useCreateAcademicYear = () => {
 export const useFeeConfigurations = () => {
   return useQuery({
     queryKey: ['feeConfigurations'],
-    queryFn: async () => {
-      const response = await settingsApi.getFeeConfigurations();
-      return response.data;
-    },
+    queryFn: () => settingsApi.getFeeConfigurations(),
   });
 };
 
@@ -98,10 +89,7 @@ export const useCreateFeeConfiguration = () => {
 export const useRoles = () => {
   return useQuery({
     queryKey: ['roles'],
-    queryFn: async () => {
-      const response = await settingsApi.getRoles();
-      return response.data;
-    },
+    queryFn: () => settingsApi.getRoles(),
   });
 };
 

@@ -7,6 +7,7 @@ import Courses from './pages/Courses/Courses';
 import FeeManagement from './pages/FeeManagement/FeeManagement';
 import Reports from './pages/Reports/Reports';
 import Settings from './pages/Settings/Settings';
+import Attendance from './pages/Attendance/Attendance';
 
 const router = createBrowserRouter([
   {
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
       {
         path: 'settings',
         element: <Settings />,
+      },
+      {
+        path: 'attendance',
+        element: <Attendance />,
       },
     ],
   },

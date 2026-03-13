@@ -1,6 +1,6 @@
-import { useMemo } from 'react';
+import { useEffect } from 'react';
 import { Modal, Form, Input, Select, message } from 'antd';
-import { useCreateTeacher, useUpdateTeacher, useTeachers } from '../../hooks/useTeachers';
+import { useCreateTeacher, useUpdateTeacher } from '../../hooks/useTeachers';
 
 export default function TeacherForm({ open, onCancel, onSubmit, editingTeacher }) {
   const [form] = Form.useForm();
@@ -8,23 +8,23 @@ export default function TeacherForm({ open, onCancel, onSubmit, editingTeacher }
   const createMutation = useCreateTeacher();
   const updateMutation = useUpdateTeacher();
 
-  // Fetch existing teachers to extract unique subjects
-  const { data: teachers = [] } = useTeachers();
-  const subjectOptions = useMemo(() => {
-    const unique = [...new Set(teachers.map(t => t.subjectSpecialization).filter(Boolean))];
-    return unique.sort().map(subject => ({ label: subject, value: subject }));
-  }, [teachers]);
-
   const isEditing = !!editingTeacher;
 
-  // Reset form when modal opens/closes or editing teacher changes
-  const handleOpenChange = (isOpen) => {
-    if (isOpen && editingTeacher) {
-      form.setFieldsValue(editingTeacher);
-    } else if (!isOpen) {
+  useEffect(() => {
+    if (!open) {
+      form.resetFields();
+      return;
+    }
+
+    if (editingTeacher) {
+      form.setFieldsValue({
+        ...editingTeacher,
+        subject: editingTeacher.subject || editingTeacher.subjectSpecialization,
+      });
+    } else {
       form.resetFields();
     }
-  };
+  }, [open, editingTeacher, form]);
 
   const handleOk = () => {
     form.submit();
@@ -45,8 +45,8 @@ export default function TeacherForm({ open, onCancel, onSubmit, editingTeacher }
             form.resetFields();
             onSubmit();
           },
-          onError: () => {
-            message.error('Failed to update teacher');
+          onError: (error) => {
+            message.error(error?.message || 'Failed to update teacher');
           },
         }
       );
@@ -57,8 +57,8 @@ export default function TeacherForm({ open, onCancel, onSubmit, editingTeacher }
           form.resetFields();
           onSubmit();
         },
-        onError: () => {
-          message.error('Failed to add teacher');
+        onError: (error) => {
+          message.error(error?.message || 'Failed to add teacher');
         },
       });
     }
@@ -86,7 +86,6 @@ export default function TeacherForm({ open, onCancel, onSubmit, editingTeacher }
         form={form}
         layout="vertical"
         onFinish={handleFinish}
-        onOpenChange={handleOpenChange}
         style={{ marginTop: 16 }}
       >
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
@@ -136,13 +135,9 @@ export default function TeacherForm({ open, onCancel, onSubmit, editingTeacher }
           <Form.Item
             name="subject"
             label="Subject"
-            rules={[{ required: true, message: 'Please select a subject' }]}
+            rules={[{ required: true, message: 'Please enter a subject' }]}
           >
-            <Input
-              showSearch={false}
-              placeholder="Select a subject"
-              options={subjectOptions}
-            />
+            <Input placeholder="e.g. Mathematics" />
           </Form.Item>
         </div>
 

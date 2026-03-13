@@ -5,10 +5,7 @@ import dashboardApi from '../api/dashboardApi';
 export const useDashboardStats = () => {
   return useQuery({
     queryKey: ['dashboard', 'stats'],
-    queryFn: async () => {
-      const response = await dashboardApi.getStats();
-      return response.data;
-    },
+    queryFn: () => dashboardApi.getStats(),
   });
 };
 
@@ -16,10 +13,7 @@ export const useDashboardStats = () => {
 export const useNotifications = () => {
   return useQuery({
     queryKey: ['notifications'],
-    queryFn: async () => {
-      const response = await dashboardApi.getNotifications();
-      return response.data;
-    },
+    queryFn: () => dashboardApi.getNotifications(),
   });
 };
 

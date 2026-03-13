@@ -1,30 +1,56 @@
-import axiosClient from './axiosClient';
+import supabase from './supabaseClient';
+import { keysToCamel } from './caseUtils';
 
 const dashboardApi = {
   // Get dashboard stats
-  getStats: () => axiosClient.get('/stats'),
+  getStats: async () => {
+    const { data, error } = await supabase.from('stats').select('*');
+    if (error) throw error;
+    return keysToCamel(data);
+  },
 
   // Get notifications
-  getNotifications: () => axiosClient.get('/notifications'),
+  getNotifications: async () => {
+    const { data, error } = await supabase
+      .from('notifications')
+      .select('*')
+      .order('date', { ascending: false });
+    if (error) throw error;
+    return keysToCamel(data);
+  },
 
   // Mark notification as read
-  markNotificationRead: (id) => 
-    axiosClient.patch(`/notifications/${id}`, { read: true }),
+  markNotificationRead: async (id) => {
+    const { data, error } = await supabase
+      .from('notifications')
+      .update({ read: true })
+      .eq('id', id)
+      .select()
+      .single();
+    if (error) throw error;
+    return keysToCamel(data);
+  },
 
   // Mark all notifications as read
-  markAllNotificationsRead: () => 
-    axiosClient.get('/notifications').then((response) => {
-      const notifications = response.data;
-      return Promise.all(
-        notifications.map((notification) =>
-          axiosClient.patch(`/notifications/${notification.id}`, { read: true })
-        )
-      );
-    }),
+  markAllNotificationsRead: async () => {
+    const { data, error } = await supabase
+      .from('notifications')
+      .update({ read: true })
+      .eq('read', false)
+      .select();
+    if (error) throw error;
+    return keysToCamel(data);
+  },
 
   // Get unread notification count
-  getUnreadCount: () => 
-    axiosClient.get('/notifications?read=false').then((response) => response.data.length),
+  getUnreadCount: async () => {
+    const { count, error } = await supabase
+      .from('notifications')
+      .select('*', { count: 'exact', head: true })
+      .eq('read', false);
+    if (error) throw error;
+    return count;
+  },
 };
 
 export default dashboardApi;

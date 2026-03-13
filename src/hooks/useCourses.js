@@ -5,10 +5,7 @@ import coursesApi from '../api/coursesApi';
 export const useCourses = () => {
   return useQuery({
     queryKey: ['courses'],
-    queryFn: async () => {
-      const response = await coursesApi.getAll();
-      return response.data;
-    },
+    queryFn: () => coursesApi.getAll(),
   });
 };
 
@@ -16,10 +13,7 @@ export const useCourses = () => {
 export const useCourse = (id) => {
   return useQuery({
     queryKey: ['courses', id],
-    queryFn: async () => {
-      const response = await coursesApi.getById(id);
-      return response.data;
-    },
+    queryFn: () => coursesApi.getById(id),
     enabled: !!id,
   });
 };
@@ -65,9 +59,6 @@ export const useDeleteCourse = () => {
 export const useActiveCourses = () => {
   return useQuery({
     queryKey: ['courses', 'active'],
-    queryFn: async () => {
-      const response = await coursesApi.getActive();
-      return response.data;
-    },
+    queryFn: () => coursesApi.getActive(),
   });
 };

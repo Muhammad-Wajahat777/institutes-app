@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Modal, Form, Input, Select, InputNumber, message } from 'antd';
 import { useCreateCourse, useUpdateCourse } from '../../hooks/useCourses';
 
@@ -9,17 +10,21 @@ export default function CourseForm({ open, onCancel, onSubmit, editingCourse, te
 
   const isEditing = !!editingCourse;
 
-  // Reset form when modal opens/closes or editing course changes
-  const handleOpenChange = (isOpen) => {
-    if (isOpen && editingCourse) {
+  useEffect(() => {
+    if (!open) {
+      form.resetFields();
+      return;
+    }
+
+    if (editingCourse) {
       form.setFieldsValue({
         ...editingCourse,
         duration: editingCourse.duration,
       });
-    } else if (!isOpen) {
+    } else {
       form.resetFields();
     }
-  };
+  }, [open, editingCourse, form]);
 
   const handleOk = () => {
     form.submit();
@@ -40,8 +45,8 @@ export default function CourseForm({ open, onCancel, onSubmit, editingCourse, te
             form.resetFields();
             onSubmit();
           },
-          onError: () => {
-            message.error('Failed to update course');
+          onError: (error) => {
+            message.error(error?.message || 'Failed to update course');
           },
         }
       );
@@ -52,8 +57,8 @@ export default function CourseForm({ open, onCancel, onSubmit, editingCourse, te
           form.resetFields();
           onSubmit();
         },
-        onError: () => {
-          message.error('Failed to add course');
+        onError: (error) => {
+          message.error(error?.message || 'Failed to add course');
         },
       });
     }
@@ -81,7 +86,6 @@ export default function CourseForm({ open, onCancel, onSubmit, editingCourse, te
         form={form}
         layout="vertical"
         onFinish={handleFinish}
-        onOpenChange={handleOpenChange}
         style={{ marginTop: 16 }}
       >
         <Form.Item

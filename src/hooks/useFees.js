@@ -5,10 +5,7 @@ import feesApi from '../api/feesApi';
 export const useFees = () => {
   return useQuery({
     queryKey: ['fees'],
-    queryFn: async () => {
-      const response = await feesApi.getAll();
-      return response.data;
-    },
+    queryFn: () => feesApi.getAll(),
   });
 };
 
@@ -16,10 +13,7 @@ export const useFees = () => {
 export const useFee = (id) => {
   return useQuery({
     queryKey: ['fees', id],
-    queryFn: async () => {
-      const response = await feesApi.getById(id);
-      return response.data;
-    },
+    queryFn: () => feesApi.getById(id),
     enabled: !!id,
   });
 };
@@ -65,10 +59,7 @@ export const useDeleteFee = () => {
 export const useFeesByStudent = (studentId) => {
   return useQuery({
     queryKey: ['fees', 'student', studentId],
-    queryFn: async () => {
-      const response = await feesApi.getByStudent(studentId);
-      return response.data;
-    },
+    queryFn: () => feesApi.getByStudent(studentId),
     enabled: !!studentId,
   });
 };
@@ -77,9 +68,6 @@ export const useFeesByStudent = (studentId) => {
 export const usePendingFees = () => {
   return useQuery({
     queryKey: ['fees', 'pending'],
-    queryFn: async () => {
-      const response = await feesApi.getPending();
-      return response.data;
-    },
+    queryFn: () => feesApi.getPending(),
   });
 };

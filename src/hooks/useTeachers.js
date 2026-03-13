@@ -5,10 +5,7 @@ import teachersApi from '../api/teachersApi';
 export const useTeachers = () => {
   return useQuery({
     queryKey: ['teachers'],
-    queryFn: async () => {
-      const response = await teachersApi.getAll();
-      return response.data;
-    },
+    queryFn: () => teachersApi.getAll(),
   });
 };
 
@@ -16,10 +13,7 @@ export const useTeachers = () => {
 export const useTeacher = (id) => {
   return useQuery({
     queryKey: ['teachers', id],
-    queryFn: async () => {
-      const response = await teachersApi.getById(id);
-      return response.data;
-    },
+    queryFn: () => teachersApi.getById(id),
     enabled: !!id,
   });
 };

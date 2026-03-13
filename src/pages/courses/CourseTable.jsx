@@ -14,9 +14,10 @@ export default function CourseTable({ courses, onEdit, onDelete, isDeleting }) {
       key: 'code',
     },
     {
-      title: 'Duration',
+      title: 'Duration (months)',
       dataIndex: 'duration',
       key: 'duration',
+      render: (duration) => duration ?? 'N/A',
     },
     {
       title: 'Total Fees',
