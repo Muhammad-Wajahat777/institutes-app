@@ -1,13 +1,13 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import MainLayout from './layouts/MainLayout';
 import Dashboard from './pages/Dashboard/Dashboard';
-import Students from './pages/Students/Students';
-import Teachers from './pages/Teachers/Teachers';
-import Courses from './pages/Courses/Courses';
-import FeeManagement from './pages/FeeManagement/FeeManagement';
-import Reports from './pages/Reports/Reports';
-import Settings from './pages/Settings/Settings';
-import Attendance from './pages/Attendance/Attendance';
+import Students from './pages/students/Students';
+import Teachers from './pages/teachers/Teachers';
+import Courses from './pages/courses/Courses';
+import FeeManagement from './pages/feemanagement/FeeManagement';
+import Reports from './pages/reports/Reports';
+import Settings from './pages/settings/Settings';
+import Attendance from './pages/attendance/Attendance';
 
 const router = createBrowserRouter([
   {
