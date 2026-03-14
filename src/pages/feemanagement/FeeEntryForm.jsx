@@ -1,47 +1,83 @@
+import { useEffect, useMemo } from 'react';
 import { Modal, Form, Input, InputNumber, Select, DatePicker, message } from "antd";
 import { useCreateFee, useUpdateFee } from "../../hooks/useFees";
 import dayjs from 'dayjs';
 
-const { TextArea } = Input;
-
-export default function FeeEntryForm({ open, onCancel, onSubmit, editingFee, students = [] }) {
+export default function FeeEntryForm({ open, onCancel, onSubmit, editingFee, students = [], courses = [] }) {
   const [form] = Form.useForm();
   
   const createMutation = useCreateFee();
   const updateMutation = useUpdateFee();
 
   const isEditing = !!editingFee;
+  const selectedStudentId = Form.useWatch('studentId', form);
+  const amountPaid = Number(Form.useWatch('amountPaid', form) || 0);
 
-  // Reset form when modal opens/closes or editing fee changes
-  const handleOpenChange = (isOpen) => {
-    if (isOpen && editingFee) {
+  const selectedStudent = useMemo(
+    () => students.find((student) => student.id === selectedStudentId),
+    [students, selectedStudentId]
+  );
+
+  const selectedCourse = useMemo(
+    () => courses.find((course) => course.id === selectedStudent?.courseId),
+    [courses, selectedStudent]
+  );
+
+  const totalFee = Number(selectedCourse?.totalFees || 0);
+  const calculatedAmountDue = Math.max(totalFee - amountPaid, 0);
+
+  useEffect(() => {
+    if (!open) {
+      form.resetFields();
+      return;
+    }
+
+    if (editingFee) {
       form.setFieldsValue({
         ...editingFee,
         paymentDate: editingFee.paymentDate ? dayjs(editingFee.paymentDate) : null,
       });
-    } else if (!isOpen) {
+    } else {
       form.resetFields();
+      form.setFieldsValue({
+        receiptNo: 'Auto-generated on save',
+      });
     }
-  };
+  }, [open, editingFee, form]);
+
+  useEffect(() => {
+    if (!open) return;
+
+    form.setFieldsValue({
+      courseName: selectedCourse?.name || '—',
+      totalFee,
+      amountDue: calculatedAmountDue,
+    });
+  }, [open, selectedCourse, totalFee, calculatedAmountDue, form]);
 
   const handleOk = () => {
     form.submit();
   };
 
   const handleFinish = (values) => {
-    const feeData = {
-      ...values,
+    const commonData = {
+      studentId: values.studentId,
       paymentDate: values.paymentDate ? values.paymentDate.format('YYYY-MM-DD') : null,
       amountPaid: values.amountPaid || 0,
-      amountDue: values.amountDue || 0,
-      receiptNo: values.receiptNo || `REC${Date.now()}`,
-      academicYear: values.academicYear || '2025-26',
+      paymentType: values.paymentType,
+      status: values.status,
       installment: values.installment || '1st Year - 1st Semester',
     };
 
     if (isEditing) {
+      const updateData = {
+        ...commonData,
+        // Keep these in sync for edits when row already exists.
+        amountDue: values.amountDue || calculatedAmountDue,
+      };
+
       updateMutation.mutate(
-        { id: editingFee.id, data: feeData },
+        { id: editingFee.id, data: updateData },
         {
           onSuccess: () => {
             message.success('Fee record updated successfully');
@@ -54,7 +90,8 @@ export default function FeeEntryForm({ open, onCancel, onSubmit, editingFee, stu
         }
       );
     } else {
-      createMutation.mutate(feeData, {
+      // courseId, totalFee, amountDue, and receiptNo are DB-managed during insert.
+      createMutation.mutate(commonData, {
         onSuccess: () => {
           message.success('Fee record added successfully');
           form.resetFields();
@@ -107,7 +144,6 @@ export default function FeeEntryForm({ open, onCancel, onSubmit, editingFee, stu
         form={form}
         layout="vertical"
         onFinish={handleFinish}
-        onOpenChange={handleOpenChange}
         style={{ marginTop: 16 }}
       >
         <Form.Item
@@ -124,6 +160,22 @@ export default function FeeEntryForm({ open, onCancel, onSubmit, editingFee, stu
             }
           />
         </Form.Item>
+
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+          <Form.Item name="courseName" label="Course">
+            <Input disabled />
+          </Form.Item>
+
+          <Form.Item name="totalFee" label="Total Fee">
+            <InputNumber
+              prefix="₹"
+              style={{ width: "100%" }}
+              formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+              parser={(value) => value.replace(/,/g, "")}
+              disabled
+            />
+          </Form.Item>
+        </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
           <Form.Item
@@ -149,13 +201,13 @@ export default function FeeEntryForm({ open, onCancel, onSubmit, editingFee, stu
             label="Amount Due"
           >
             <InputNumber
-              placeholder="e.g. 0"
               prefix="₹"
               style={{ width: "100%" }}
               formatter={(value) =>
                 `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
               }
               parser={(value) => value.replace(/,/g, "")}
+              disabled
             />
           </Form.Item>
         </div>
@@ -191,15 +243,8 @@ export default function FeeEntryForm({ open, onCancel, onSubmit, editingFee, stu
             />
           </Form.Item>
 
-          <Form.Item
-            name="academicYear"
-            label="Academic Year"
-          >
-            <Select placeholder="Select academic year">
-              <Select.Option value="2025-26">2025-26</Select.Option>
-              <Select.Option value="2024-25">2024-25</Select.Option>
-              <Select.Option value="2026-27">2026-27</Select.Option>
-            </Select>
+          <Form.Item name="installment" label="Installment">
+            <Input placeholder="e.g. 1st Year - 1st Semester" />
           </Form.Item>
         </div>
 
@@ -207,12 +252,9 @@ export default function FeeEntryForm({ open, onCancel, onSubmit, editingFee, stu
           name="receiptNo"
           label="Receipt Number"
         >
-          <Input placeholder="e.g. REC001" />
+          <Input placeholder="Auto-generated by DB (RCP-0001...)" disabled />
         </Form.Item>
 
-        <Form.Item name="installment" label="Installment">
-          <Input placeholder="e.g. 1st Year - 1st Semester" />
-        </Form.Item>
       </Form>
     </Modal>
   );

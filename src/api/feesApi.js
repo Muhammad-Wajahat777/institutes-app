@@ -2,6 +2,43 @@ import supabase from './supabaseClient';
 import { keysToCamel, keysToSnake } from './caseUtils';
 
 const feesApi = {
+  // Read all rows from fees table
+  getAllFees: async () => {
+    const { data, error } = await supabase.from('fees').select('*');
+    if (error) throw error;
+    return keysToCamel(data);
+  },
+
+  // Insert a row into fees table
+  insertFee: async (feeData) => {
+    const { data, error } = await supabase
+      .from('fees')
+      .insert(keysToSnake(feeData))
+      .select()
+      .single();
+    if (error) throw error;
+    return keysToCamel(data);
+  },
+
+  // Update matching row by id
+  updateFeeById: async (id, updates) => {
+    const { data, error } = await supabase
+      .from('fees')
+      .update(keysToSnake(updates))
+      .eq('id', id)
+      .select()
+      .single();
+    if (error) throw error;
+    return keysToCamel(data);
+  },
+
+  // Delete matching row by id
+  deleteFeeById: async (id) => {
+    const { error } = await supabase.from('fees').delete().eq('id', id);
+    if (error) throw error;
+    return true;
+  },
+
   // Get all fees with student details
   getAll: async () => {
     const { data, error } = await supabase
@@ -86,20 +123,6 @@ const feesApi = {
       .from('fees')
       .select('*, students(*)')
       .eq('status', 'Pending');
-    if (error) throw error;
-    return keysToCamel(data).map((fee) => ({
-      ...fee,
-      student: fee.students,
-      students: undefined,
-    }));
-  },
-
-  // Get fees by academic year
-  getByAcademicYear: async (year) => {
-    const { data, error } = await supabase
-      .from('fees')
-      .select('*, students(*)')
-      .eq('academic_year', year);
     if (error) throw error;
     return keysToCamel(data).map((fee) => ({
       ...fee,

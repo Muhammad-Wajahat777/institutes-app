@@ -1,14 +1,10 @@
 import { Tabs, Typography } from 'antd';
 import {
   BankOutlined,
-  CalendarOutlined,
-  DollarOutlined,
   BellOutlined,
   SafetyOutlined,
 } from '@ant-design/icons';
 import InstituteProfile from './InstituteProfile';
-import AcademicYearSettings from './AcademicYearSettings';
-import FeeConfiguration from './FeeConfiguration';
 import NotificationPreferences from './NotificationPreferences';
 import RolesPermissions from './RolesPermissions';
 
@@ -20,18 +16,6 @@ const tabItems = [
     label: 'Institute Profile',
     icon: <BankOutlined />,
     children: <InstituteProfile />,
-  },
-  {
-    key: 'academic',
-    label: 'Academic Year',
-    icon: <CalendarOutlined />,
-    children: <AcademicYearSettings />,
-  },
-  {
-    key: 'fees',
-    label: 'Fee Configuration',
-    icon: <DollarOutlined />,
-    children: <FeeConfiguration />,
   },
   {
     key: 'notifications',
@@ -52,7 +36,7 @@ export default function Settings() {
     <div>
       <Title level={3}>Settings</Title>
       <Paragraph type="secondary" style={{ marginBottom: 24 }}>
-        Configure institute preferences, academic years, fee structure, notifications, and user roles.
+        Configure institute profile, notifications, and user roles.
       </Paragraph>
 
       <Tabs

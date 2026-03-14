@@ -28,66 +28,6 @@ const settingsApi = {
     return keysToCamel(data);
   },
 
-  // Get academic years
-  getAcademicYears: async () => {
-    const { data, error } = await supabase.from('academic_years').select('*');
-    if (error) throw error;
-    return keysToCamel(data);
-  },
-
-  // Update academic year
-  updateAcademicYear: async (id, yearData) => {
-    const { data, error } = await supabase
-      .from('academic_years')
-      .update(keysToSnake(yearData))
-      .eq('id', id)
-      .select()
-      .single();
-    if (error) throw error;
-    return keysToCamel(data);
-  },
-
-  // Create academic year
-  createAcademicYear: async (yearData) => {
-    const { data, error } = await supabase
-      .from('academic_years')
-      .insert(keysToSnake(yearData))
-      .select()
-      .single();
-    if (error) throw error;
-    return keysToCamel(data);
-  },
-
-  // Get fee configurations
-  getFeeConfigurations: async () => {
-    const { data, error } = await supabase.from('fee_configurations').select('*');
-    if (error) throw error;
-    return keysToCamel(data);
-  },
-
-  // Update fee configuration
-  updateFeeConfiguration: async (id, configData) => {
-    const { data, error } = await supabase
-      .from('fee_configurations')
-      .update(keysToSnake(configData))
-      .eq('id', id)
-      .select()
-      .single();
-    if (error) throw error;
-    return keysToCamel(data);
-  },
-
-  // Create fee configuration
-  createFeeConfiguration: async (configData) => {
-    const { data, error } = await supabase
-      .from('fee_configurations')
-      .insert(keysToSnake(configData))
-      .select()
-      .single();
-    if (error) throw error;
-    return keysToCamel(data);
-  },
-
   // Get roles
   getRoles: async () => {
     const { data, error } = await supabase.from('roles').select('*');

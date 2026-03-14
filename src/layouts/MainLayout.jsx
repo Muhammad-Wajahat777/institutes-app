@@ -60,6 +60,11 @@ const menuItems = [
   },
 ];
 
+const getSelectedMenuKey = (pathname) => {
+  const matched = menuItems.find((item) => pathname === item.key || pathname.startsWith(`${item.key}/`));
+  return matched ? [matched.key] : ['/'];
+};
+
 export default function MainLayout() {
   const [collapsed, setCollapsed] = useState(false);
   const navigate = useNavigate();
@@ -110,7 +115,7 @@ export default function MainLayout() {
         <Menu
           theme="dark"
           mode="inline"
-          selectedKeys={[location.pathname]}
+          selectedKeys={getSelectedMenuKey(location.pathname)}
           items={menuItems}
           onClick={handleMenuClick}
           style={{ marginTop: 8 }}

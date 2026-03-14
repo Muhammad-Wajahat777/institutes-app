@@ -1,7 +1,7 @@
 import { Table, Button, Tag, Popconfirm, Space } from 'antd';
-import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import { EditOutlined, DeleteOutlined, PrinterOutlined } from '@ant-design/icons';
 
-export default function FeeTable({ feeRecords, onEdit, onDelete, isDeleting }) {
+export default function FeeTable({ feeRecords, onEdit, onDelete, onPrintReceipt, isDeleting }) {
   const columns = [
     {
       title: 'Receipt No',
@@ -14,10 +14,21 @@ export default function FeeTable({ feeRecords, onEdit, onDelete, isDeleting }) {
       key: 'studentName',
     },
     {
+      title: 'Course',
+      dataIndex: 'courseName',
+      key: 'courseName',
+    },
+    {
+      title: 'Total Fee',
+      dataIndex: 'totalFee',
+      key: 'totalFee',
+      render: (totalFee) => `₹${Number(totalFee || 0).toLocaleString()}`,
+    },
+    {
       title: 'Amount Paid',
-      dataIndex: 'amount',
-      key: 'amount',
-      render: (amount) => `₹${Number(amount || 0).toLocaleString()}`,
+      dataIndex: 'amountPaid',
+      key: 'amountPaid',
+      render: (amountPaid) => `₹${Number(amountPaid || 0).toLocaleString()}`,
     },
     {
       title: 'Amount Due',
@@ -33,15 +44,15 @@ export default function FeeTable({ feeRecords, onEdit, onDelete, isDeleting }) {
     },
     {
       title: 'Payment Type',
-      dataIndex: 'paymentMethod',
-      key: 'paymentMethod',
-      render: (method) => {
+      dataIndex: 'paymentType',
+      key: 'paymentType',
+      render: (paymentType) => {
         const colorMap = {
           Cash: 'green',
           Online: 'purple',
           'Bank Transfer': 'blue',
         };
-        return <Tag color={colorMap[method] || 'default'}>{method || '—'}</Tag>;
+        return <Tag color={colorMap[paymentType] || 'default'}>{paymentType || '—'}</Tag>;
       },
     },
     {
@@ -58,15 +69,17 @@ export default function FeeTable({ feeRecords, onEdit, onDelete, isDeleting }) {
       },
     },
     {
-      title: 'Academic Year',
-      dataIndex: 'academicYear',
-      key: 'academicYear',
-    },
-    {
       title: 'Actions',
       key: 'actions',
       render: (_, record) => (
         <Space size="middle">
+          <Button
+            type="link"
+            icon={<PrinterOutlined />}
+            onClick={() => onPrintReceipt(record)}
+          >
+            Receipt
+          </Button>
           <Button
             type="link"
             icon={<EditOutlined />}
@@ -95,11 +108,14 @@ export default function FeeTable({ feeRecords, onEdit, onDelete, isDeleting }) {
   ];
 
   return (
-    <Table
-      columns={columns}
-      dataSource={feeRecords}
-      pagination={{ pageSize: 10 }}
-      bordered
-    />
+    <div style={{ overflowX: 'auto', width: '100%' }}>
+      <Table
+        columns={columns}
+        dataSource={feeRecords}
+        pagination={{ pageSize: 10 }}
+        bordered
+        scroll={{ x: 'max-content' }}
+      />
+    </div>
   );
 }

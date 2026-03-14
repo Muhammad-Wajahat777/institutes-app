@@ -1,72 +1,95 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Card, Row, Col, Button, Statistic, message, DatePicker, Typography, Empty, Spin } from "antd";
-import { UserOutlined, CheckOutlined, CloseOutlined, SaveOutlined, CalendarOutlined } from "@ant-design/icons";
+import { Card, Row, Col, Button, Statistic, message, DatePicker, Typography, Empty, Spin, Table, Tag } from "antd";
+import { UserOutlined, CheckOutlined, CloseOutlined, SaveOutlined, CalendarOutlined, SwapOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
 import studentsApi from "../../api/studentsApi";
+import attendanceApi from "../../api/attendanceApi";
+import coursesApi from "../../api/coursesApi";
 
 const { Title, Text } = Typography;
-
-// Mock attendance API (since we don't have a real backend for attendance)
-const attendanceApi = {
-  getByDate: (date) => {
-    const stored = localStorage.getItem(`attendance_${date}`);
-    return stored ? JSON.parse(stored) : null;
-  },
-  save: (date, records) => {
-    localStorage.setItem(`attendance_${date}`, JSON.stringify(records));
-    return { success: true };
-  }
-};
 
 export default function Attendance() {
   const [selectedDate, setSelectedDate] = useState(dayjs());
   const [attendance, setAttendance] = useState({});
   const queryClient = useQueryClient();
+  const selectedDateStr = selectedDate.format('YYYY-MM-DD');
 
   // Fetch all students
   const { data: students = [], isLoading } = useQuery({
     queryKey: ['students'],
-    queryFn: async () => {
-      const response = await studentsApi.getAll();
-      return response.data;
-    },
+    queryFn: () => studentsApi.getAll(),
+  });
+
+  const { data: courses = [], isLoading: coursesLoading } = useQuery({
+    queryKey: ['courses'],
+    queryFn: () => coursesApi.getAll(),
   });
 
   // Filter active students only
-  const activeStudents = students.filter(student => 
-    student.status?.toLowerCase() === 'active'
+  const activeStudents = useMemo(
+    () => students.filter((student) => student.status?.toLowerCase() === 'active' && student.id !== null && student.id !== undefined),
+    [students]
   );
+
+  const courseNameById = useMemo(() => {
+    const map = {};
+    courses.forEach((course) => {
+      map[course.id] = course.name;
+    });
+    return map;
+  }, [courses]);
+
+  const attendanceRows = useMemo(() => {
+    return activeStudents.map((student) => ({
+      ...student,
+      key: student.id,
+      fullName: `${student.firstName || ''} ${student.lastName || ''}`.trim(),
+      courseName: courseNameById[student.courseId] || student.courseName || '-',
+      isPresent: attendance[student.id] === true,
+    }));
+  }, [activeStudents, courseNameById, attendance]);
+
+  const { data: attendanceByDate = {}, isLoading: attendanceLoading } = useQuery({
+    queryKey: ['attendance', selectedDateStr],
+    queryFn: () => attendanceApi.getByDate(selectedDateStr),
+  });
+
+  const saveAttendanceMutation = useMutation({
+    mutationFn: ({ date, records }) => attendanceApi.saveByDate(date, records),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['attendance', selectedDateStr] });
+      message.success('Attendance saved successfully!');
+    },
+    onError: (error) => {
+      message.error(error?.message || 'Failed to save attendance');
+    },
+  });
 
   // Load existing attendance for selected date
   useEffect(() => {
-    const dateStr = selectedDate.format('YYYY-MM-DD');
-    const existing = attendanceApi.getByDate(dateStr);
-    
-    if (existing) {
-      setAttendance(existing);
-    } else {
-      // Initialize all students as absent (false)
-      const initial = {};
-      activeStudents.forEach(student => {
-        initial[student.id] = false;
-      });
-      setAttendance(initial);
-    }
-  }, [selectedDate, activeStudents]);
+    // Initialize active students with DB values for selected date, default absent.
+    const initial = {};
+    activeStudents.forEach((student) => {
+      initial[student.id] = attendanceByDate[student.id] ?? false;
+    });
+    setAttendance(initial);
+  }, [activeStudents, attendanceByDate]);
 
   // Update attendance when students change
   useEffect(() => {
     if (activeStudents.length > 0) {
       setAttendance(prev => {
         const updated = { ...prev };
+        let changed = false;
         // Add any new students
         activeStudents.forEach(student => {
           if (updated[student.id] === undefined) {
             updated[student.id] = false;
+            changed = true;
           }
         });
-        return updated;
+        return changed ? updated : prev;
       });
     }
   }, [activeStudents]);
@@ -81,9 +104,7 @@ export default function Attendance() {
 
   // Save attendance
   const saveAttendance = () => {
-    const dateStr = selectedDate.format('YYYY-MM-DD');
-    attendanceApi.save(dateStr, attendance);
-    message.success('Attendance saved successfully!');
+    saveAttendanceMutation.mutate({ date: selectedDateStr, records: attendance });
   };
 
   // Calculate stats
@@ -91,19 +112,55 @@ export default function Attendance() {
   const presentCount = Object.values(attendance).filter(v => v === true).length;
   const absentCount = totalStudents - presentCount;
 
-  // Get student name
-  const getStudentName = (student) => {
-    return `${student.firstName} ${student.lastName}`;
-  };
+  const columns = [
+    {
+      title: 'Name',
+      dataIndex: 'fullName',
+      key: 'fullName',
+      width: 260,
+      render: (_, record) => <Text strong>{record.fullName || '-'}</Text>,
+    },
+    {
+      title: 'Roll No',
+      dataIndex: 'rollNo',
+      key: 'rollNo',
+      width: 160,
+      render: (value) => value || '-',
+    },
+    {
+      title: 'Course Name',
+      dataIndex: 'courseName',
+      key: 'courseName',
+      width: 240,
+      render: (value) => value || '-',
+    },
+    {
+      title: 'Status',
+      key: 'status',
+      width: 140,
+      render: (_, record) => (
+        <Tag color={record.isPresent ? 'green' : 'red'}>
+          {record.isPresent ? 'Present' : 'Absent'}
+        </Tag>
+      ),
+    },
+    {
+      title: 'Action',
+      key: 'action',
+      width: 200,
+      render: (_, record) => (
+        <Button
+          icon={<SwapOutlined />}
+          onClick={() => toggleAttendance(record.id)}
+          style={{ borderColor: record.isPresent ? '#ff4d4f' : '#52c41a' }}
+        >
+          Mark {record.isPresent ? 'Absent' : 'Present'}
+        </Button>
+      ),
+    },
+  ];
 
-  // Get student initials for avatar
-  const getInitials = (student) => {
-    const first = student.firstName?.[0] || '';
-    const last = student.lastName?.[0] || '';
-    return (first + last).toUpperCase();
-  };
-
-  if (isLoading) {
+  if (isLoading || attendanceLoading || coursesLoading) {
     return (
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '400px' }}>
         <Spin size="large" />
@@ -117,13 +174,13 @@ export default function Attendance() {
       <div style={{ marginBottom: 24, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16 }}>
         <div>
           <Title level={3} style={{ margin: 0 }}>Mark Attendance</Title>
-          <Text type="secondary">Click on a student card to mark attendance</Text>
+          <Text type="secondary">Use the list below to mark attendance by date</Text>
         </div>
         
         <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
           <DatePicker 
             value={selectedDate}
-            onChange={setSelectedDate}
+            onChange={(value) => setSelectedDate(value || dayjs())}
             format="YYYY-MM-DD"
             suffixIcon={<CalendarOutlined />}
             style={{ width: 160 }}
@@ -132,6 +189,7 @@ export default function Attendance() {
             type="primary" 
             icon={<SaveOutlined />} 
             size="large"
+            loading={saveAttendanceMutation.isPending}
             onClick={saveAttendance}
           >
             Save Attendance
@@ -173,78 +231,19 @@ export default function Attendance() {
         </Col>
       </Row>
 
-      {/* Students Grid */}
+      {/* Students List */}
       {activeStudents.length === 0 ? (
         <Empty description="No active students found" />
       ) : (
-        <Row gutter={[16, 16]}>
-          {activeStudents.map((student) => {
-            const isPresent = attendance[student.id] === true;
-            
-            return (
-              <Col xs={24} sm={12} md={8} lg={6} key={student.id}>
-                <Card
-                  hoverable
-                  onClick={() => toggleAttendance(student.id)}
-                  style={{
-                    borderColor: isPresent ? '#52c41a' : '#ff4d4f',
-                    background: isPresent ? '#f6ffed' : '#fff2f0',
-                    transition: 'all 0.3s ease',
-                    cursor: 'pointer',
-                    borderWidth: 2,
-                  }}
-                  bodyStyle={{ padding: 16 }}
-                >
-                  <div style={{ textAlign: 'center' }}>
-                    {/* Avatar */}
-                    <div
-                      style={{
-                        width: 56,
-                        height: 56,
-                        borderRadius: '50%',
-                        background: isPresent ? '#52c41a' : '#ff4d4f',
-                        color: '#fff',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        margin: '0 auto 12px',
-                        fontSize: 18,
-                        fontWeight: 'bold',
-                      }}
-                    >
-                      {isPresent ? <CheckOutlined style={{ fontSize: 24 }} /> : getInitials(student)}
-                    </div>
-                    
-                    {/* Name */}
-                    <Text strong style={{ display: 'block', fontSize: 14, marginBottom: 4 }}>
-                      {getStudentName(student)}
-                    </Text>
-                    
-                    {/* Roll Number */}
-                    <Text type="secondary" style={{ fontSize: 12, display: 'block', marginBottom: 8 }}>
-                      {student.rollNo}
-                    </Text>
-                    
-                    {/* Status Badge */}
-                    <div
-style={{
-                        display: 'inline-block',
-                        padding: '4px 12px',
-                        borderRadius: 12,
-                        background: isPresent ? '#52c41a' : '#ff4d4f',
-                        color: '#fff',
-                        fontSize: 12,
-                        fontWeight: 500,
-                      }}
-                    >
-                      {isPresent ? 'Present' : 'Absent'}
-                    </div>
-                  </div>
-                </Card>
-              </Col>
-            );
-          })}
-        </Row>
+        <Card>
+          <Table
+            rowKey="id"
+            columns={columns}
+            dataSource={attendanceRows}
+            pagination={{ pageSize: 20, showSizeChanger: true, pageSizeOptions: ['20', '50', '100'] }}
+            scroll={{ x: 900, y: 520 }}
+          />
+        </Card>
       )}
     </div>
   );
